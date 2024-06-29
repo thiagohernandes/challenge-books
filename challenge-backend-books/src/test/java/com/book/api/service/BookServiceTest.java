@@ -214,7 +214,7 @@ class BookServiceTest extends SuportTests {
             .thenReturn(bookEntityPage);
 
         when(pdfHelper
-            .createPdfReport(any())).thenReturn(new byte[10]);
+            .createPdfReport(any())).thenReturn("ANY DATA");
 
         final var booksResponse = bookService.generatePdfBooks(bookFilterRequest);
         assertNotNull(booksResponse);
