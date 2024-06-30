@@ -40,6 +40,7 @@ public class BookController {
     public ResponseEntity<Void> saveOrUpdateBook(@RequestBody
                                                  @Valid BookPersistRequest saveRequest) {
         bookService.saveOrUpdateBook(saveRequest);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -51,7 +52,7 @@ public class BookController {
 
     @GetMapping("/pdf")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> getPDFBooksByFilter(@RequestParam(required = false) String title,
+    public Mono<String> getPDFBooksByFilter(@RequestParam(required = false) String title,
                                                       @RequestParam(required = false) String publishingCompany,
                                                       @RequestParam(defaultValue = "0") Integer page,
                                                       @RequestParam(defaultValue = "10") Integer size) {
@@ -62,6 +63,6 @@ public class BookController {
             .size(size)
             .build();
 
-        return ResponseEntity.ok(bookService.generatePdfBooks(bookFilter));
+        return bookService.generatePdfBooks(bookFilter);
     }
 }

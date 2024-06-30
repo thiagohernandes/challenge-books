@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class BookControllerTest extends SuportTests {
 
+    private static final String PATH = "/book";
+
     @Mock
     private BookServiceImpl bookService;
 
@@ -33,7 +35,7 @@ class BookControllerTest extends SuportTests {
 
     @Test
     void shouldGetBooks() throws Exception {
-        mockMvc.perform(get("/book"))
+        mockMvc.perform(get(PATH))
             .andExpect(status().isOk())
             .andDo(print());
     }
@@ -42,7 +44,7 @@ class BookControllerTest extends SuportTests {
     void shouldSaveBook() throws Exception {
         BookPersistRequest request = generator.nextObject(BookPersistRequest.class);
 
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post(PATH)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated());

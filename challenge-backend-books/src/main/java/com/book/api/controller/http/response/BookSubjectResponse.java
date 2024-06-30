@@ -17,5 +17,4 @@ public class BookSubjectResponse {
     private Integer idBook;
     private Integer idSubject;
     private String subjectDescription;
-
 }

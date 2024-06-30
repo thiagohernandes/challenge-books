@@ -34,6 +34,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+    private static final Integer FILTER_LIMIT_REQUEST = 50;
     private final BookRepository bookRepository;
     private final BookSubjectRepository bookSubjectRepository;
     private final BookWriterRepository bookWriterRepository;
@@ -43,7 +44,7 @@ public class BookServiceImpl implements BookService {
     private final PdfHelperImpl pdfHelper;
 
     public Mono<List<BookResponse>> getBooksByFilters(final BookFilterRequest bookFilterRequest) {
-        if (bookFilterRequest.getSize() > 50) {
+        if (bookFilterRequest.getSize() > FILTER_LIMIT_REQUEST) {
             throw new ValidationException("A quantidade de registros não pode exceder 50");
         }
 
@@ -64,8 +65,8 @@ public class BookServiceImpl implements BookService {
             .getPublishingCompany().toUpperCase());
 
         final var savedBook = Optional.of(bookRepository
-            .save(bookFactory
-                .requestToEntity(bookPersistRequest)))
+                .save(bookFactory
+                    .requestToEntity(bookPersistRequest)))
             .orElseThrow(() -> new DatabaseException("Não foi possível salvar o livro!"));
 
         final var idBook = savedBook.getId();
@@ -75,12 +76,12 @@ public class BookServiceImpl implements BookService {
         Arrays.asList(bookPersistRequest.getSubjects())
             .forEach(subject -> {
                 var subjectEntity = Optional.of(bookSubjectRepository
-                .save(BookSubjectEntity.builder()
-                .idBook(idBook)
-                .idSubject(subject)
-                .build()))
-                .orElseThrow(() ->
-                    new DatabaseException("Não foi possível salvar os assuntos do livro!"));
+                        .save(BookSubjectEntity.builder()
+                            .idBook(idBook)
+                            .idSubject(subject)
+                            .build()))
+                    .orElseThrow(() ->
+                        new DatabaseException("Não foi possível salvar os assuntos do livro!"));
 
                 apiUtil.logMessage("Assunto salvo: "
                     .concat(subjectEntity.toString()), LogMessageType.INFO);
@@ -124,9 +125,9 @@ public class BookServiceImpl implements BookService {
         return idBook;
     }
 
-    public String generatePdfBooks(final BookFilterRequest bookFilterRequest) {
-        return pdfHelper
-            .createPdfReport(buildListBookResponse(bookFilterRequest));
+    public Mono<String> generatePdfBooks(final BookFilterRequest bookFilterRequest) {
+        return Mono.just(pdfHelper
+            .createPdfReport(buildListBookResponse(bookFilterRequest)));
     }
 
     private List<BookResponse> buildListBookResponse(final BookFilterRequest bookFilterRequest) {

@@ -6,9 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,5 +17,4 @@ public class BookSubjectDto {
     private Integer idBook;
     private Integer idSubject;
     private String subjectDescription;
-
 }

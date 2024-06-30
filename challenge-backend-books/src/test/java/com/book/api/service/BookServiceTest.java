@@ -50,7 +50,7 @@ class BookServiceTest extends SuportTests {
         .build();
     private Page<BookEntity> bookEntityPage;
     private Pageable pageable;
-    private List<BookSubjectDto> bookSubjectDtoList = new ArrayList<>();;
+    private List<BookSubjectDto> bookSubjectDtoList = new ArrayList<>();
     private BookEntity bookEntity;
 
     @Mock
@@ -142,7 +142,7 @@ class BookServiceTest extends SuportTests {
     }
 
     @Test
-    void shouldSaveBook(){
+    void shouldSaveBook() {
         when(bookFactory.requestToEntity(bookPersistRequest))
             .thenReturn(bookEntity);
 
@@ -161,7 +161,7 @@ class BookServiceTest extends SuportTests {
     }
 
     @Test
-    void shouldExceptionSubjectSaveBook(){
+    void shouldExceptionSubjectSaveBook() {
         when(bookFactory.requestToEntity(bookPersistRequest))
             .thenReturn(bookEntity);
 
@@ -176,7 +176,7 @@ class BookServiceTest extends SuportTests {
     }
 
     @Test
-    void shouldExceptionWriterSaveBook(){
+    void shouldExceptionWriterSaveBook() {
         when(bookFactory.requestToEntity(bookPersistRequest))
             .thenReturn(bookEntity);
 
@@ -219,5 +219,4 @@ class BookServiceTest extends SuportTests {
         final var booksResponse = bookService.generatePdfBooks(bookFilterRequest);
         assertNotNull(booksResponse);
     }
-
 }

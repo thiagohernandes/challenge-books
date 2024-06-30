@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface BookService {
 
-    Mono<List<BookResponse>> getBooksByFilters(final BookFilterRequest bookFilterRequest);
-    void saveOrUpdateBook(final BookPersistRequest bookPersistRequest);
-    Integer deleteBook(final Integer idBook);
-    String generatePdfBooks(final BookFilterRequest bookFilterRequest);
+    Mono<List<BookResponse>> getBooksByFilters(BookFilterRequest bookFilterRequest);
 
+    void saveOrUpdateBook(BookPersistRequest bookPersistRequest);
+
+    Integer deleteBook(Integer idBook);
+
+    Mono<String> generatePdfBooks(BookFilterRequest bookFilterRequest);
 }

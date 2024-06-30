@@ -17,5 +17,4 @@ public class BookWriterResponse {
     private Integer idBook;
     private Integer idWriter;
     private String writerName;
-
 }

@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class ErrorAdviceHandler {
 
-    private final String ERROR_UNKNOW = "Erro desconhecido";
+    private static final String ERROR_UNKNOW = "Erro desconhecido";
     private final ApiUtil apiUtil;
 
-    @ExceptionHandler({DatabaseException.class})
+    @ExceptionHandler(DatabaseException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody ErrorResponse handlerDatabaseException(final DatabaseException exception,
                                                                 final HttpServletRequest request) {
@@ -36,7 +36,7 @@ public class ErrorAdviceHandler {
             exception.getMessage(), httpStatusCode, request.getMethod());
     }
 
-    @ExceptionHandler({ValidationException.class})
+    @ExceptionHandler(ValidationException.class)
     @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
     public @ResponseBody ErrorResponse handlerValidationException(final ValidationException exception,
                                                                   final HttpServletRequest request) {
@@ -49,10 +49,10 @@ public class ErrorAdviceHandler {
             exception);
 
         return exceptionResponseHandler(request.getRequestURI(),
-            exception.getMessage(), httpStatusCode,request.getMethod());
+            exception.getMessage(), httpStatusCode, request.getMethod());
     }
 
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody ErrorResponse handlerException(final Exception exception,
                                                                       final HttpServletRequest request) {
@@ -65,7 +65,7 @@ public class ErrorAdviceHandler {
             request.getMethod(), exception);
 
         return exceptionResponseHandler(request.getRequestURI(),
-            messageHandle, httpStatusCode ,request.getMethod());
+            messageHandle, httpStatusCode, request.getMethod());
     }
 
     private ErrorResponse exceptionResponseHandler(String requestURI,
@@ -84,6 +84,6 @@ public class ErrorAdviceHandler {
     private void loggerHandler(String message, String calledURL,
                                int statusCode, String method, Throwable exception) {
         apiUtil.logMessage("Erro: " + message + " URL: " + calledURL + " Status code: "
-        + statusCode + " Método: " + method + " Exceção: " + exception, LogMessageType.ERROR);
+            + statusCode + " Método: " + method + " Exceção: " + exception, LogMessageType.ERROR);
     }
 }

@@ -59,5 +59,4 @@ public class BookFactory {
             .writerName(dto.getWriterName())
             .build();
     }
-
 }

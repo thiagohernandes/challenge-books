@@ -17,5 +17,4 @@ public class BookWriterDto {
     private Integer idBook;
     private Integer idWriter;
     private String writerName;
-
 }

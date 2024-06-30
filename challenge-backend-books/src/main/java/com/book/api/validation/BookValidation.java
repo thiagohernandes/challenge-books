@@ -13,6 +13,8 @@ import java.util.Objects;
 @Component
 public class BookValidation {
 
+    private static final Integer VALID_YEAR_LENGHT = 4;
+
     public void validateBookSave(final BookPersistRequest bookPersistRequest) {
         List<String> message = new ArrayList<>();
 
@@ -37,8 +39,8 @@ public class BookValidation {
         }
 
         if (!StringUtils.isAllBlank(bookPersistRequest.getPublishYear())
-            && bookPersistRequest.getPublishYear().length() < 4) {
-           message.add("O ano deve ter o formato de 4 dígitos!");
+            && bookPersistRequest.getPublishYear().length() < VALID_YEAR_LENGHT) {
+            message.add("O ano deve ter o formato de 4 dígitos!");
         }
 
         if (ObjectUtils.isEmpty(bookPersistRequest.getPrice())) {

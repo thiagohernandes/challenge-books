@@ -25,6 +25,10 @@ import java.util.stream.Stream;
 public class PdfHelperImpl implements PdfHelper {
 
     private static final String CURRENCY = "R$ ";
+    private static final String FONT_TYPE = "Arial";
+    private static final Integer FONT_SIZE = 8;
+    private static final String DELIMITER = ", ";
+    private static final Integer SIZE_COLLUMS = 5;
     private final ApiUtil apiUtil;
 
     public String createPdfReport(List<BookResponse> bookResponseList) {
@@ -38,7 +42,7 @@ public class PdfHelperImpl implements PdfHelper {
             document.open();
             apiUtil.logMessage("Montando estrutura...", LogMessageType.INFO);
 
-            PdfPTable table = new PdfPTable(5);
+            PdfPTable table = new PdfPTable(SIZE_COLLUMS);
             addTableHeader(table);
             addRows(table, bookResponseList);
             document.add(table);
@@ -50,7 +54,7 @@ public class PdfHelperImpl implements PdfHelper {
                 .encodeToString(streamOutput.toByteArray());
         } catch (DocumentException e) {
             throw new GeneratePdfException("Não foi possível gerar o PDF de livros! "
-                . concat(e.getMessage()));
+                .concat(e.getMessage()));
         }
     }
 
@@ -60,9 +64,9 @@ public class PdfHelperImpl implements PdfHelper {
                 PdfPCell header = new PdfPCell();
                 header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 header.setBorderWidth(2);
-                header.setPhrase(new Phrase(columnTitle, FontFactory.getFont("Arial", 8)));
+                header.setPhrase(new Phrase(columnTitle, FontFactory.getFont(FONT_TYPE, FONT_SIZE)));
                 table.addCell(header);
-        });
+            });
 
         apiUtil.logMessage("Colunas adicionadas!", LogMessageType.INFO);
     }
@@ -81,16 +85,16 @@ public class PdfHelperImpl implements PdfHelper {
 
     private Phrase makePhrase(final String text) {
         return new Phrase(text,
-            FontFactory.getFont("Arial", 5));
+            FontFactory.getFont(FONT_TYPE, FONT_SIZE));
     }
 
     private String handleSubjects(List<BookSubjectResponse> bookSubjectResponseList) {
         return bookSubjectResponseList.stream().map(BookSubjectResponse::getSubjectDescription)
-            .collect(Collectors.joining(", "));
+            .collect(Collectors.joining(DELIMITER));
     }
 
     private String handleWriters(List<BookWriterResponse> bookWriterResponseList) {
         return bookWriterResponseList.stream().map(BookWriterResponse::getWriterName)
-            .collect(Collectors.joining(", "));
+            .collect(Collectors.joining(DELIMITER));
     }
 }

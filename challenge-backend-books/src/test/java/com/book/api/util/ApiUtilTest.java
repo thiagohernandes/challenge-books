@@ -51,6 +51,4 @@ class ApiUtilTest extends SuportTests {
 
         assertNotNull(formated);
     }
-
-
 }
