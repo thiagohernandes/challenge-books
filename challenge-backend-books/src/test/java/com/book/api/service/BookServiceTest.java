@@ -228,31 +228,8 @@ class BookServiceTest extends SuportTests {
 
     @Test
     void shouldGeBookById() {
-        final var id = 1;
-
-        when(bookRepository.findById(id))
-            .thenReturn(Optional.of(bookEntity));
-
-        when(bookSubjectRepository.getBookSubjectsByIdBook(bookEntity.getId()))
-            .thenReturn(bookSubjectDtoList);
-
-        when(bookWriterRepository.getBookWritersByIdBook(bookEntity.getId()))
-            .thenReturn(bookWriterDtoList);
-
-        assertNotNull(bookService.getBookById(id));
-    }
-
-    @Test
-    void shouldGetExceptionOnGetBookById() {
-        final var id = bookEntity.getId();
-        BookResponse bookResponse = BookResponse.builder()
-            .id(bookEntity.getId())
-            .title(bookEntity.getTitle())
-            .edition(bookEntity.getEdition())
-            .publishYear(bookEntity.getPublishYear())
-            .publishingCompany(bookEntity.getPublishingCompany())
-            .price(bookEntity.getPrice())
-            .build();
+        final var id = 30;
+        bookEntity.setId(id);
 
         when(bookRepository.findById(id))
             .thenReturn(Optional.of(bookEntity));
@@ -263,9 +240,19 @@ class BookServiceTest extends SuportTests {
         when(bookWriterRepository.getBookWritersByIdBook(id))
             .thenReturn(bookWriterDtoList);
 
-        when(bookFactory.entityToResponse(bookEntity, bookSubjectDtoList,
-            bookWriterDtoList)).thenReturn(bookResponse);
+        when(bookFactory.entityToResponse(bookEntity, bookSubjectDtoList, bookWriterDtoList))
+            .thenReturn(new BookResponse());
 
         assertNotNull(bookService.getBookById(id));
+    }
+
+    @Test
+    void shouldGetExceptionOnGetBookById() {
+        final var id = 22;
+
+        when(bookRepository.findById(id))
+            .thenReturn(null);
+
+        assertThrows(DatabaseException.class, () ->  bookService.getBookById(id));
     }
 }
