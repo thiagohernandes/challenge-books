@@ -25,10 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +87,8 @@ class BookServiceTest extends SuportTests {
             .publishingCompany(bookPersistRequest.getPublishingCompany())
             .build();
 
-        pageable = PageRequest.of(bookFilterRequest.getPage(), bookFilterRequest.getSize());
+        pageable = PageRequest.of(bookFilterRequest.getPage(), bookFilterRequest.getSize(),
+            Sort.by(Sort.Direction.ASC, "title"));
         bookEntityPage = new PageImpl<>(List.of(mock(BookEntity.class)));
     }
 

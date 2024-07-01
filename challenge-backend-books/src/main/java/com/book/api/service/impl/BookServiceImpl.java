@@ -138,7 +138,7 @@ public class BookServiceImpl implements BookService {
 
         final List<BookResponse> bookResponse = new ArrayList<>();
         final Pageable pageable = PageRequest.of(bookFilterRequest.getPage(), bookFilterRequest.getSize(),
-            Sort.by(Sort.Direction.ASC, bookFilterRequest.getTitle()));
+            Sort.by(Sort.Direction.ASC, "title"));
 
         final var bookSearch = Optional.ofNullable(bookRepository
             .findByTitleLikeAndPublishingCompanyLike(
