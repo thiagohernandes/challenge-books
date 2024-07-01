@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -136,7 +137,8 @@ public class BookServiceImpl implements BookService {
         apiUtil.logMessage("Consultando livros...", LogMessageType.INFO);
 
         final List<BookResponse> bookResponse = new ArrayList<>();
-        final Pageable pageable = PageRequest.of(bookFilterRequest.getPage(), bookFilterRequest.getSize());
+        final Pageable pageable = PageRequest.of(bookFilterRequest.getPage(), bookFilterRequest.getSize(),
+            Sort.by(Sort.Direction.ASC, bookFilterRequest.getTitle()));
 
         final var bookSearch = Optional.ofNullable(bookRepository
             .findByTitleLikeAndPublishingCompanyLike(
