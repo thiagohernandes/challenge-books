@@ -56,4 +56,11 @@ class BookControllerTest extends SuportTests {
             .andExpect(status().isOk())
             .andDo(print());
     }
+
+    @Test
+    void shouldGetBookById() throws Exception {
+        mockMvc.perform(get("/book/by-id/1"))
+            .andExpect(status().isOk())
+            .andDo(print());
+    }
 }
