@@ -54,9 +54,9 @@ public class BookController {
     @GetMapping("/pdf")
     @ResponseStatus(HttpStatus.OK)
     public Mono<String> getPDFBooksByFilter(@RequestParam(required = false) String title,
-                                                      @RequestParam(required = false) String publishingCompany,
-                                                      @RequestParam(defaultValue = "0") Integer page,
-                                                      @RequestParam(defaultValue = "10") Integer size) {
+                                            @RequestParam(required = false) String publishingCompany,
+                                            @RequestParam(defaultValue = "0") Integer page,
+                                            @RequestParam(defaultValue = "10") Integer size) {
         final var bookFilter = BookFilterRequest.builder()
             .title(title)
             .publishingCompany(publishingCompany)

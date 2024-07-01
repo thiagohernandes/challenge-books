@@ -54,3 +54,9 @@ t
 Dsrc/main/java/com/book/api/exception/handler/ErrorAdviceHandler.java,3/4/34cbcf353b157c78e1ef533dde7598628cc8877a
 z
 Jsrc/main/java/com/book/api/controller/http/request/BookPersistRequest.java,6/b/6b5edaa0e9d8dc4582ffcd25b7a29beb95f308fa
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+B
+docker-compose.yml,3/5/35b8c13cf2eb2a194eada000eb310d65aed53b2a
+d
+4src/main/java/com/book/api/config/OpenApiConfig.java,7/0/70256614de139bf086ccb0d1d540b70942147c96
