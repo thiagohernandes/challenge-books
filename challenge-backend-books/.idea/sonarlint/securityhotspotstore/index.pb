@@ -52,3 +52,5 @@ p
 @src/main/java/com/book/api/ChallengeBackendBooksApplication.java,5/5/55e62b2f6e015ddbb406854847fcefde0d324f9e
 t
 Dsrc/main/java/com/book/api/exception/handler/ErrorAdviceHandler.java,3/4/34cbcf353b157c78e1ef533dde7598628cc8877a
+z
+Jsrc/main/java/com/book/api/controller/http/request/BookPersistRequest.java,6/b/6b5edaa0e9d8dc4582ffcd25b7a29beb95f308fa
