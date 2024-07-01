@@ -9,6 +9,8 @@ import com.book.api.database.entity.BookWriterEntity;
 import com.book.api.database.repository.BookRepository;
 import com.book.api.database.repository.BookSubjectRepository;
 import com.book.api.database.repository.BookWriterRepository;
+import com.book.api.domain.BookSubjectDto;
+import com.book.api.domain.BookWriterDto;
 import com.book.api.exception.DatabaseException;
 import com.book.api.exception.ValidationException;
 import com.book.api.factory.BookFactory;
@@ -149,21 +151,35 @@ public class BookServiceImpl implements BookService {
                 pageable)).orElseThrow(() -> new DatabaseException("Não foi possível retornar a busca de livros!"));
 
         bookSearch.getContent().forEach(search -> {
-            final var bookSubjectDtos = Optional.ofNullable(bookSubjectRepository
-                    .getBookSubjectsByIdBook(search.getId()))
-                .orElseThrow(() -> new DatabaseException("Não foi possível retornar a busca de assuntos dos livros!"));
-
-            final var bookWriterDtos = Optional.ofNullable(bookWriterRepository
-                    .getBookWritersByIdBook(search.getId()))
-                .orElseThrow(() -> new DatabaseException("Não foi possível retornar a busca de autores dos livros!"));
-
             bookResponse
                 .add(bookFactory
-                    .entityToResponse(search, bookSubjectDtos, bookWriterDtos));
+                    .entityToResponse(search,
+                        makeBookListSubject(search.getId()),
+                        makeBookListWriter(search.getId())));
         });
 
         apiUtil.logMessage("Consulta de livros finalizada!", LogMessageType.INFO);
 
         return bookResponse;
+    }
+
+    public BookResponse getBookById(Integer id) {
+        final var book = bookRepository.findById(id)
+            .orElseThrow(() -> new DatabaseException("O livro não existe!"));
+
+        return bookFactory.entityToResponse(book,
+            makeBookListSubject(id), makeBookListWriter(id));
+    }
+
+    private List<BookSubjectDto> makeBookListSubject(final Integer idBook) {
+        return Optional.ofNullable(bookSubjectRepository
+                .getBookSubjectsByIdBook(idBook))
+            .orElseThrow(() -> new DatabaseException("Não foi possível retornar a busca de assuntos dos livros!"));
+    }
+
+    private List<BookWriterDto> makeBookListWriter(final Integer idBook) {
+        return Optional.ofNullable(bookWriterRepository
+                .getBookWritersByIdBook(idBook))
+            .orElseThrow(() -> new DatabaseException("Não foi possível retornar a busca de autores dos livros!"));
     }
 }

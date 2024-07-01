@@ -65,4 +65,10 @@ public class BookController {
 
         return bookService.generatePdfBooks(bookFilter);
     }
+
+    @GetMapping("/by-id/{idBook}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<BookResponse> getBookById(@PathVariable Integer idBook) {
+        return ResponseEntity.ok(bookService.getBookById(idBook));
+    }
 }

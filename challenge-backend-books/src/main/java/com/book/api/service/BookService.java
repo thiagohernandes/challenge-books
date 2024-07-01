@@ -15,5 +15,7 @@ public interface BookService {
 
     Integer deleteBook(Integer idBook);
 
+    BookResponse getBookById(Integer id);
+
     Mono<String> generatePdfBooks(BookFilterRequest bookFilterRequest);
 }

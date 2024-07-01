@@ -2,6 +2,7 @@ package com.book.api.service;
 
 import com.book.api.controller.http.request.BookFilterRequest;
 import com.book.api.controller.http.request.BookPersistRequest;
+import com.book.api.controller.http.response.BookResponse;
 import com.book.api.database.entity.BookEntity;
 import com.book.api.database.entity.BookSubjectEntity;
 import com.book.api.database.entity.BookWriterEntity;
@@ -9,6 +10,7 @@ import com.book.api.database.repository.BookRepository;
 import com.book.api.database.repository.BookSubjectRepository;
 import com.book.api.database.repository.BookWriterRepository;
 import com.book.api.domain.BookSubjectDto;
+import com.book.api.domain.BookWriterDto;
 import com.book.api.exception.DatabaseException;
 import com.book.api.exception.ValidationException;
 import com.book.api.factory.BookFactory;
@@ -30,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,6 +54,7 @@ class BookServiceTest extends SuportTests {
     private Page<BookEntity> bookEntityPage;
     private Pageable pageable;
     private List<BookSubjectDto> bookSubjectDtoList = new ArrayList<>();
+    private List<BookWriterDto> bookWriterDtoList = new ArrayList<>();
     private BookEntity bookEntity;
 
     @Mock
@@ -74,6 +78,8 @@ class BookServiceTest extends SuportTests {
     void init() {
         bookSubjectDtoList.add(mock(BookSubjectDto.class));
         bookSubjectDtoList.add(mock(BookSubjectDto.class));
+        bookWriterDtoList.add(mock(BookWriterDto.class));
+        bookWriterDtoList.add(mock(BookWriterDto.class));
 
         bookEntity = BookEntity.builder()
             .id(bookPersistRequest.getId())
@@ -218,5 +224,48 @@ class BookServiceTest extends SuportTests {
 
         final var booksResponse = bookService.generatePdfBooks(bookFilterRequest);
         assertNotNull(booksResponse);
+    }
+
+    @Test
+    void shouldGeBookById() {
+        final var id = 1;
+
+        when(bookRepository.findById(id))
+            .thenReturn(Optional.of(bookEntity));
+
+        when(bookSubjectRepository.getBookSubjectsByIdBook(bookEntity.getId()))
+            .thenReturn(bookSubjectDtoList);
+
+        when(bookWriterRepository.getBookWritersByIdBook(bookEntity.getId()))
+            .thenReturn(bookWriterDtoList);
+
+        assertNotNull(bookService.getBookById(id));
+    }
+
+    @Test
+    void shouldGetExceptionOnGetBookById() {
+        final var id = bookEntity.getId();
+        BookResponse bookResponse = BookResponse.builder()
+            .id(bookEntity.getId())
+            .title(bookEntity.getTitle())
+            .edition(bookEntity.getEdition())
+            .publishYear(bookEntity.getPublishYear())
+            .publishingCompany(bookEntity.getPublishingCompany())
+            .price(bookEntity.getPrice())
+            .build();
+
+        when(bookRepository.findById(id))
+            .thenReturn(Optional.of(bookEntity));
+
+        when(bookSubjectRepository.getBookSubjectsByIdBook(id))
+            .thenReturn(bookSubjectDtoList);
+
+        when(bookWriterRepository.getBookWritersByIdBook(id))
+            .thenReturn(bookWriterDtoList);
+
+        when(bookFactory.entityToResponse(bookEntity, bookSubjectDtoList,
+            bookWriterDtoList)).thenReturn(bookResponse);
+
+        assertNotNull(bookService.getBookById(id));
     }
 }
