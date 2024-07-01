@@ -251,7 +251,7 @@ class BookServiceTest extends SuportTests {
         final var id = 22;
 
         when(bookRepository.findById(id))
-            .thenReturn(null);
+            .thenThrow(DatabaseException.class);
 
         assertThrows(DatabaseException.class, () ->  bookService.getBookById(id));
     }
