@@ -78,7 +78,7 @@ Init Kubernetes Tool
 
 `minikube dashboard`
 
-API Cash flow
+API Books
 
 `cd api-backend-books`
 
