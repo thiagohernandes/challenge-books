@@ -9,9 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -23,7 +22,7 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Mono<List<BookResponse>> getBooksByFilter(@RequestParam(required = false) String title,
+    public Flux<BookResponse> getBooksByFilter(@RequestParam(required = false) String title,
                                                      @RequestParam(required = false) String publishingCompany,
                                                      @RequestParam(defaultValue = "0") Integer page,
                                                      @RequestParam(defaultValue = "10") Integer size) {

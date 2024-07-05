@@ -80,10 +80,6 @@ p
 .src/main/java/com/book/api/domain/BookDto.java,0/1/0193a4a963de0c10dc0a894efab212c23e00d2ff
 m
 =src/main/java/com/book/api/database/entity/SubjectEntity.java,c/f/cf2951a1c1e9a717f831fa6427ba403dea4fa4b4
-a
-1src/main/java/com/book/api/domain/SubjectDto.java,9/1/91ddd83ce793c033ef274b0df1993b37bc40f902
-a
-1src/main/java/com/book/api/domain/WritertDto.java,5/9/59702dd568cdaaef64562e95d97152948205da5e
 e
 5src/main/java/com/book/api/factory/WriterFactory.java,6/9/691ffa9bd1d42d643e39dda00f77d3e4f2fe50a7
 f

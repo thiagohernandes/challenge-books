@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -46,12 +47,12 @@ public class BookServiceImpl implements BookService {
     private final BookValidation bookValidation;
     private final PdfHelperImpl pdfHelper;
 
-    public Mono<List<BookResponse>> getBooksByFilters(final BookFilterRequest bookFilterRequest) {
+    public Flux<BookResponse> getBooksByFilters(final BookFilterRequest bookFilterRequest) {
         if (bookFilterRequest.getSize() > FILTER_LIMIT_REQUEST) {
             throw new ValidationException("A quantidade de registros não pode exceder 50");
         }
 
-        return Mono.just(buildListBookResponse(bookFilterRequest));
+        return Flux.fromIterable(buildListBookResponse(bookFilterRequest));
     }
 
     @Transactional(rollbackFor = DatabaseException.class)
